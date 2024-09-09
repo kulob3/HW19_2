@@ -47,6 +47,12 @@ class Product(models.Model):
         verbose_name="Date of Last Update",
         help_text="Enter the date of last update of the product",
     )
+    manufactured_at = models.DateField(
+        auto_now=True,
+        verbose_name="Date of Last Update",
+        help_text="Enter the date of manufacture of the product",
+    )
+
 
     class Meta:
         verbose_name = "Product"
