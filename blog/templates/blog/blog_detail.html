@@ -1,12 +1,12 @@
-{% extends 'base.html' %}
-{% load my_tags %}
+{% extends 'catalog/base.html' %}
+{% load media_filter %}
 {% block content %}
     <div class="album py-5 bg-body-tertiary">
         <div class="container">
             <div class="row py-5">
                 <div class="col-lg-8 mx-auto">
                     <div class="card shadow-sm">
-                        <img src="{{ blog.image | media_filter }}" class="card-img-top" alt="{{ object.title }}">
+                        <img src="{{ blogs.image | media_filter }}" class="card-img-top" alt="{{ object.title }}">
                         <div class="card-body">
                             <h2 class="card-title">{{ object.title }} ({{ object.slug }})</h2>
                             <p class="card-text"><small class="text-muted">Published: {{ object.created_at }}</small></p>
