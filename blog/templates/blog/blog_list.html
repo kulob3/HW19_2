@@ -12,7 +12,7 @@
                     {% for object in object_list %}
                         <div class="col">
                             <div class="card shadow-sm">
-                                <img src="{{ blogs.image | media_filter }}" class="card-img-top" alt="{{ object.title }}">
+                                <img src="{{ object.preview | media_filter }}" class="card-img-top" alt="{{ object.title }}">
                                 <div class="card-body">
                                     <h5 class="card-title">{{ object.title }}</h5>
                                     <p class="card-text"><small class="text-muted">Published: {{ object.created_at }}</small></p>
