@@ -16,8 +16,10 @@
                                 <p class="card-text">Added: {{ product.updated_at }}</p>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="btn-group">
-                                        <a class="btn btn-sm btn-outline-secondary" href="{% url 'catalog:product_list' %}">Back</a>
+                                        <a class="btn btn-sm btn-outline-secondary" href="{% url 'catalog:product_update' product.pk %}">Edit</a>
+                                        <a class="btn btn-sm btn-outline-secondary" href="{% url 'catalog:product_delete' product.pk %}">Delete</a>
                                     </div>
+                                    <a class="btn btn-sm btn-outline-secondary" href="{% url 'catalog:product_list' %}">Back</a>
                                 </div>
                             </div>
                         </div>

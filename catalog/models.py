@@ -77,3 +77,35 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
+
+class Version(models.Model):
+    product = models.ForeignKey(
+        Product,
+        on_delete=models.CASCADE,
+        verbose_name="Product",
+        help_text="Enter the product",
+        related_name="versions",
+    )
+    number = models.CharField(
+        max_length=100,
+        verbose_name="Version Number",
+        help_text="Enter the number of the version",
+    )
+    name = models.CharField(
+        max_length=100,
+        verbose_name="Version Name",
+        help_text="Enter the name of the version",
+    )
+    is_active = models.BooleanField(
+        default=False,
+        verbose_name="Is Active",
+        help_text="Enter the active version of the product",
+    )
+
+    class Meta:
+        verbose_name = "Version"
+        verbose_name_plural = "Versions"
+        ordering = ["product", "number"]
+
+    def __str__(self):
+        return self.number

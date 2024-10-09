@@ -1,0 +1,36 @@
+
+{% extends 'catalog/base.html' %}
+
+{% block content %}
+    <div class="container mt-5">
+        <form class="row" method="post" class="needs-validation" novalidate enctype="multipart/form-data">
+            <div class="col-md-6">
+                <h2 class="mb-4">
+                    {% if product %}
+                        Edit product
+                    {% else %}
+                        New product
+                    {% endif %}
+                </h2>
+                {% csrf_token %}
+                <div class="mb-3">
+                    {{ form.as_p }}
+                </div>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+            <div class="col-md-6">
+                <p class="card-text">Version</p> 
+                <div class="card">
+                    <div class="card-body">
+                        {{ formset.management_form }}
+                        {% for form in formset.forms %}
+                            <div class="formset-form">
+                                {{ form.as_p }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}

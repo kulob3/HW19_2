@@ -1,0 +1,16 @@
+{% extends 'catalog/base.html' %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h2 class="mb-4"></h2>
+        <form method="post" class="needs-validation" novalidate>
+            {% csrf_token %}
+            <div class="mb-3">
+            </div>
+            <h4>Delete {{ object.name }}?</h4>
+            <button type="submit" class="btn btn-primary">Yes</button>
+            <a class="btn btn-primary" href="{% url 'catalog:product_detail' object.pk %}">No</a>
+
+        </form>
+    </div>
+{% endblock %}
