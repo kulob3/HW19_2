@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.forms import inlineformset_factory
 from django.template.defaultfilters import slugify
 from django.urls import reverse_lazy
@@ -19,15 +20,15 @@ class ProductListView(ListView):
         return context_data
 
 
-
 class ProductDetailView(DetailView):
     model = Product
 
 
-class ProductCreateView(CreateView):
+class ProductCreateView(CreateView, LoginRequiredMixin):
     model = Product
     form_class = ProductForm
     success_url = reverse_lazy('catalog:product_list')
+
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
@@ -42,7 +43,9 @@ class ProductCreateView(CreateView):
         context_data = self.get_context_data()
         formset = context_data['formset']
         if form.is_valid() and formset.is_valid():
-            self.object = form.save()
+            self.object = form.save(commit=False)
+            self.object.creator = self.request.user
+            self.object.save()
             formset.instance = self.object
             formset.save()
             return super().form_valid(form)

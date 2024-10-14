@@ -1,7 +1,11 @@
+
+
 from django.db import models
 
+from HW19_2.settings import NULLABLE
+from users.models import User
 
-NULLABLE = {"blank": True, "null": True}
+
 
 
 class Product(models.Model):
@@ -46,6 +50,13 @@ class Product(models.Model):
         auto_now=True,
         verbose_name="Date of Last Update",
         help_text="Enter the date of last update of the product",
+    )
+    creator = models.ForeignKey(
+        User,
+        verbose_name="Creator",
+        help_text="Enter the creator of the product",
+        on_delete=models.SET_NULL,
+        **NULLABLE
     )
 
 
@@ -101,6 +112,7 @@ class Version(models.Model):
         verbose_name="Is Active",
         help_text="Enter the active version of the product",
     )
+
 
     class Meta:
         verbose_name = "Version"

@@ -14,6 +14,7 @@
                                 <p class="card-text">Category: {{ product.category }}</p>
                                 <p class="card-text">Created: {{ product.created_at }}</p>
                                 <p class="card-text">Added: {{ product.updated_at }}</p>
+                                <p class="card-text">User creator: {{ product.creator }}</p>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="btn-group">
                                         <a class="btn btn-sm btn-outline-secondary" href="{% url 'catalog:product_update' product.pk %}">Edit</a>
