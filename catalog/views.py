@@ -1,10 +1,12 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.exceptions import PermissionDenied
 from django.forms import inlineformset_factory
 from django.template.defaultfilters import slugify
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
-from catalog.forms import ProductForm, VersionForm
+from HW19_2.settings import PERMISSIONS_MODERATOR
+from catalog.forms import ProductForm, VersionForm, ProductModeratorForm
 from catalog.models import Product, Version
 
 
@@ -29,7 +31,6 @@ class ProductCreateView(CreateView, LoginRequiredMixin):
     form_class = ProductForm
     success_url = reverse_lazy('catalog:product_list')
 
-
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
         ProductFormset = inlineformset_factory(Product, Version, VersionForm, extra=1)
@@ -52,7 +53,8 @@ class ProductCreateView(CreateView, LoginRequiredMixin):
         else:
             return self.render_to_response(self.get_context_data(form=form, formset=formset))
 
-class ProductUpdateView(UpdateView):
+
+class ProductUpdateView(LoginRequiredMixin, UpdateView):
     model = Product
     form_class = ProductForm
     success_url = reverse_lazy('catalog:product_list')
@@ -77,7 +79,15 @@ class ProductUpdateView(UpdateView):
         else:
             return self.render_to_response(self.get_context_data(form=form, formset=formset))
 
+    def get_form_class(self):
+        user = self.request.user
+        if user == self.object.creator:
+            return ProductForm
+        if all([user.has_perm(f'catalog.{perm[0]}') for perm in PERMISSIONS_MODERATOR]):
+            return ProductModeratorForm
+        raise PermissionDenied
+
+
 class ProductDeleteView(DeleteView):
     model = Product
     success_url = reverse_lazy('catalog:product_list')
-

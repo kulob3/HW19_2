@@ -2,7 +2,7 @@
 
 from django.db import models
 
-from HW19_2.settings import NULLABLE
+from HW19_2.settings import NULLABLE, PERMISSIONS_MODERATOR
 from users.models import User
 
 
@@ -58,12 +58,18 @@ class Product(models.Model):
         on_delete=models.SET_NULL,
         **NULLABLE
     )
+    is_published = models.BooleanField(
+        default=False,
+        verbose_name="Is Published",
+        help_text="Enter the published product",
+    )
 
 
     class Meta:
         verbose_name = "Product"
         verbose_name_plural = "Products"
         ordering = ["name", "category"]
+        permissions = PERMISSIONS_MODERATOR
 
     def __str__(self):
         return self.name

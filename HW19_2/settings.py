@@ -140,3 +140,10 @@ SERVER_EMAIL = EMAIL_HOST_USER
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 NULLABLE = {"blank": True, "null": True}
+
+PERMISSIONS_MODERATOR = [
+    ("can_publish_product", "Can publish product"),
+    ("can_unpublish_product", "Can unpublish product"),
+    ("can_edit_description", "Can edit description"),
+    ("can_edit_category", "Can edit category"),
+]

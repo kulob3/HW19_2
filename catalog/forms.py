@@ -20,6 +20,11 @@ class ProductForm(StyleFormMixin, ModelForm):
         model = Product
         exclude = ['creator']
 
+class ProductModeratorForm(StyleFormMixin, ModelForm):
+    class Meta:
+        model = Product
+        fields = ('description', 'is_published', 'category')
+
     def clean_name(self):
         name = self.cleaned_data['name']
         if name in ['казино', 'криптовалюта', 'крипта', 'биржа', 'дешево', 'бесплатно', 'обман', 'полиция', 'радар']:
