@@ -1,25 +1,39 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.cache import cache
 from django.core.exceptions import PermissionDenied
 from django.forms import inlineformset_factory
-from django.template.defaultfilters import slugify
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-
 from HW19_2.settings import PERMISSIONS_MODERATOR
 from catalog.forms import ProductForm, VersionForm, ProductModeratorForm
 from catalog.models import Product, Version
+from catalog.services import get_product_from_cache, get_category_from_cache
 
 
 class ProductListView(ListView):
     model = Product
     context_object_name = 'products'
 
+    # def get_context_data(self, **kwargs):
+    #     context_data = super().get_context_data(**kwargs)
+    #     context_data['products'] = context_data['products'].filter(versions__is_active=True)
+    #     for product in context_data['products']:
+    #         product.active_version = product.versions.filter(is_active=True).first()
+    #     return context_data
+
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
         context_data['products'] = context_data['products'].filter(versions__is_active=True)
         for product in context_data['products']:
             product.active_version = product.versions.filter(is_active=True).first()
+        context_data['categories'] = self.get_categories()
         return context_data
+
+    def get_queryset(self):
+        return get_product_from_cache()
+
+    def get_categories(self):
+        return get_category_from_cache()
 
 
 class ProductDetailView(DetailView):
